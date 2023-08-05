@@ -13,6 +13,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final CounterCubit counterCubit = CounterCubit();
+
     return MaterialApp(
       title: 'Flutter Named Route',
       theme: ThemeData(
@@ -20,9 +22,14 @@ class MyApp extends StatelessWidget {
           // useMaterial3: true,
           primarySwatch: Colors.blue),
       routes: {
-        '/': (context) =>
-            const MyHomePage(title: 'Flutter Named Route Home Page'),
-        '/counter': (context) => const ShowMeCounter(),
+        '/': (context) => BlocProvider.value(
+              value: counterCubit,
+              child: const MyHomePage(title: 'Flutter Named Route Home Page'),
+            ),
+        '/counter': (context) => BlocProvider.value(
+              value: counterCubit,
+              child: const ShowMeCounter(),
+            ),
       },
     );
   }
