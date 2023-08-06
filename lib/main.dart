@@ -8,10 +8,17 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
-  final CounterCubit counterCubit = CounterCubit();
-
+// CounterCubit close() 를 위해 StatefulWidget 으로 변경
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // 병렬 sub-tree 에서 동일한 Cubit 인스턴스를 사용하기 위해 properties 로 선언 및 초기화
+  final CounterCubit _counterCubit = CounterCubit();
 
   @override
   Widget build(BuildContext context) {
@@ -23,15 +30,21 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue),
       routes: {
         '/': (context) => BlocProvider.value(
-              value: counterCubit,
+              value: _counterCubit,
               child: const MyHomePage(title: 'Flutter Named Route Home Page'),
             ),
         '/counter': (context) => BlocProvider.value(
-              value: counterCubit,
+              value: _counterCubit,
               child: const ShowMeCounter(),
             ),
       },
     );
+  }
+
+  @override
+  void dispose() {
+    _counterCubit.close();
+    super.dispose();
   }
 }
 
