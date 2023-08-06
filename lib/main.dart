@@ -9,12 +9,12 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
+  final CounterCubit counterCubit = CounterCubit();
+
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final CounterCubit counterCubit = CounterCubit();
-
     return MaterialApp(
       title: 'Flutter Named Route',
       theme: ThemeData(
